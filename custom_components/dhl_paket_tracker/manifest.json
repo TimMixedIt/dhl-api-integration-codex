@@ -1,0 +1,16 @@
+{
+  "domain": "dhl_paket_tracker",
+  "name": "DHL Paket Tracker",
+  "codeowners": [
+    "@codex"
+  ],
+  "config_flow": true,
+  "documentation": "https://github.com/example/dhl-api-integration-codex",
+  "integration_type": "service",
+  "iot_class": "cloud_polling",
+  "loggers": [
+    "custom_components.dhl_paket_tracker"
+  ],
+  "requirements": [],
+  "version": "0.1.0"
+}
