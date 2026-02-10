@@ -1,0 +1,58 @@
+# DHL Paket Tracker (Home Assistant Custom Integration)
+
+Diese Integration bindet die DHL-Paket-Tracking-API in Home Assistant ein und erstellt pro Sendungsnummer einen Sensor.
+
+## Features
+
+- Konfiguration komplett über UI (Config Flow)
+- Mehrere Sendungsnummern pro Integrationseintrag
+- Polling-Intervall konfigurierbar (5 bis 720 Minuten)
+- Relevante Paketdetails als Sensor-Attribute (Status, Events, Ziel, ETA)
+- HACS-kompatibel
+
+## Installation über HACS (Custom Repository)
+
+1. HACS öffnen
+2. **Integrations** → Menü (⋮) → **Custom repositories**
+3. URL dieses Repositories eintragen
+4. Kategorie: **Integration**
+5. Integration installieren
+6. Home Assistant neu starten
+
+## Einrichtung
+
+1. In Home Assistant: **Einstellungen** → **Geräte & Dienste** → **Integration hinzufügen**
+2. Nach **DHL Paket Tracker** suchen
+3. DHL API Key eintragen
+4. Eine oder mehrere Sendungsnummern eintragen (Komma oder neue Zeile)
+5. Speichern
+
+## Hinweise zur API
+
+Diese Integration nutzt den DHL-Tracking-Endpunkt unter:
+
+- `https://api-eu.dhl.com/track/shipments?trackingNumber=<NUMMER>`
+
+Der API-Key wird als Header `DHL-API-Key` gesendet.
+
+## Entitäten
+
+Pro Tracking-Nummer wird ein Sensor erstellt, z. B.:
+
+- `sensor.sendung_123456`
+
+**State:** aktueller Versandstatus
+
+**Attribute (Auszug):**
+
+- `tracking_number`
+- `status_code`
+- `status_description`
+- `estimated_delivery`
+- `origin`
+- `destination`
+- `events` (max. 10 letzte Events)
+
+## Disclaimer
+
+Die DHL-API kann je nach Vertrag/Produkt andere Felder oder Auth-Anforderungen haben. Falls dein Endpoint andere Header oder OAuth voraussetzt, kann die Integration entsprechend erweitert werden.
