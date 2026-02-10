@@ -1,0 +1,24 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Set up DHL Paket Tracker",
+        "description": "Enter your API key and at least one tracking number.",
+        "data": {
+          "api_key": "DHL API key",
+          "tracking_numbers": "Tracking numbers (comma or newline separated)",
+          "poll_interval_minutes": "Update interval in minutes"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to the DHL API",
+      "invalid_auth": "Invalid API key",
+      "missing_tracking_numbers": "Provide at least one tracking number",
+      "unknown": "Unexpected error"
+    },
+    "abort": {
+      "already_configured": "This tracking configuration is already configured"
+    }
+  }
+}
