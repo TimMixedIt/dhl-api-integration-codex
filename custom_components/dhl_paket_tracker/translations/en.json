@@ -2,13 +2,19 @@
   "config": {
     "step": {
       "user": {
-        "title": "Set up DHL Paket Tracker",
-        "description": "Enter your API key, optional API secret and at least one tracking number.",
+        "title": "DHL credentials",
+        "description": "Step 1: Enter your API key and optional API secret.",
         "data": {
           "api_key": "DHL API key",
           "api_secret": "DHL API secret (optional)",
-          "tracking_numbers": "Tracking numbers (comma or newline separated)",
           "poll_interval_minutes": "Update interval in minutes"
+        }
+      },
+      "tracking": {
+        "title": "DHL shipments",
+        "description": "Step 2: Enter at least one tracking number.",
+        "data": {
+          "tracking_numbers": "Tracking numbers (comma or newline separated)"
         }
       }
     },

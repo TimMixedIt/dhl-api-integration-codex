@@ -23,9 +23,9 @@ Diese Integration bindet die DHL-Paket-Tracking-API in Home Assistant ein und er
 
 1. In Home Assistant: **Einstellungen** → **Geräte & Dienste** → **Integration hinzufügen**
 2. Nach **DHL Paket Tracker** suchen
-3. DHL API Key eintragen
-4. Optional: DHL API Secret eintragen (falls dein DHL-Produkt es verlangt)
-5. Eine oder mehrere Sendungsnummern eintragen (Komma oder neue Zeile)
+3. Schritt 1: DHL API Key eintragen
+4. Schritt 1: Optional API Secret eintragen (falls dein DHL-Produkt es verlangt)
+5. Schritt 2: Eine oder mehrere Sendungsnummern eintragen (Komma oder neue Zeile)
 6. Speichern
 
 ## Hinweise zur API
@@ -67,3 +67,5 @@ Die DHL-API kann je nach Vertrag/Produkt andere Felder oder Auth-Anforderungen h
 
 - Wenn beim Einrichten weiterhin `invalid_auth` erscheint, prüfe bitte, ob dein DHL-Produkt zusätzlich ein API-Secret verlangt und trage es im Config-Flow ein.
 - Bei produkt-/sendungsspezifischen API-Fehlern kann der Setup-Test fehlschlagen, obwohl der Key korrekt ist. Die Integration legt den Eintrag trotzdem an und versucht den Abruf danach zyklisch erneut.
+
+- Hinweis: Konfigurationsdialoge werden von Home Assistant teilweise gecacht. Nach einem Integrations-Update ggf. Home Assistant neu starten, damit neue Felder (z. B. API-Secret) sicher angezeigt werden.
