@@ -11,9 +11,9 @@ from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import (
     CONF_API_KEY,
+    CONF_API_SECRET,
     CONF_POLL_INTERVAL_MINUTES,
     CONF_TRACKING_NUMBERS,
-    DOMAIN,
 )
 from .coordinator import DhlPaketCoordinator
 from .dhl_api import DHLApiClient
@@ -31,7 +31,11 @@ class DhlPaketRuntimeData:
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up DHL Paket Tracker from a config entry."""
     session = async_get_clientsession(hass)
-    client = DHLApiClient(api_key=entry.data[CONF_API_KEY], session=session)
+    client = DHLApiClient(
+        api_key=entry.data[CONF_API_KEY],
+        api_secret=entry.data.get(CONF_API_SECRET),
+        session=session,
+    )
 
     coordinator = DhlPaketCoordinator(
         hass,

@@ -10,6 +10,7 @@ from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import (
     CONF_API_KEY,
+    CONF_API_SECRET,
     CONF_POLL_INTERVAL_MINUTES,
     CONF_TRACKING_NUMBERS,
     DEFAULT_POLL_INTERVAL_MINUTES,
@@ -28,6 +29,7 @@ class DhlPaketTrackerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         if user_input is not None:
             api_key = user_input[CONF_API_KEY].strip()
+            api_secret = user_input.get(CONF_API_SECRET, "").strip() or None
             raw_numbers = user_input[CONF_TRACKING_NUMBERS]
             tracking_numbers = [
                 num.strip() for num in raw_numbers.replace("\n", ",").split(",") if num.strip()
@@ -37,7 +39,11 @@ class DhlPaketTrackerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 errors["base"] = "missing_tracking_numbers"
             else:
                 session = async_get_clientsession(self.hass)
-                client = DHLApiClient(api_key=api_key, session=session)
+                client = DHLApiClient(
+                    api_key=api_key,
+                    api_secret=api_secret,
+                    session=session,
+                )
 
                 try:
                     await client.async_get_shipment(tracking_numbers[0])
@@ -60,6 +66,7 @@ class DhlPaketTrackerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     title=f"DHL ({len(tracking_numbers)} Sendungen)",
                     data={
                         CONF_API_KEY: api_key,
+                        CONF_API_SECRET: api_secret,
                         CONF_TRACKING_NUMBERS: tracking_numbers,
                         CONF_POLL_INTERVAL_MINUTES: user_input[
                             CONF_POLL_INTERVAL_MINUTES
@@ -70,6 +77,7 @@ class DhlPaketTrackerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         schema = vol.Schema(
             {
                 vol.Required(CONF_API_KEY): str,
+                vol.Optional(CONF_API_SECRET): str,
                 vol.Required(CONF_TRACKING_NUMBERS): str,
                 vol.Optional(
                     CONF_POLL_INTERVAL_MINUTES,

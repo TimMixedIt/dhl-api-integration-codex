@@ -3,9 +3,10 @@
     "step": {
       "user": {
         "title": "DHL Paket Tracker einrichten",
-        "description": "Gib API-Key und mindestens eine Sendungsnummer ein.",
+        "description": "Gib API-Key, optional API-Secret und mindestens eine Sendungsnummer ein.",
         "data": {
           "api_key": "DHL API-Key",
+          "api_secret": "DHL API-Secret (optional)",
           "tracking_numbers": "Sendungsnummern (durch Komma oder Zeilenumbruch getrennt)",
           "poll_interval_minutes": "Aktualisierungsintervall in Minuten"
         }
@@ -13,7 +14,7 @@
     },
     "error": {
       "cannot_connect": "Verbindung zur DHL API fehlgeschlagen",
-      "invalid_auth": "Ungültiger API-Key",
+      "invalid_auth": "Ungültiger API-Key oder API-Secret",
       "missing_tracking_numbers": "Mindestens eine Sendungsnummer angeben",
       "unknown": "Unerwarteter Fehler"
     },

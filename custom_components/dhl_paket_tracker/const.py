@@ -6,6 +6,7 @@ DOMAIN = "dhl_paket_tracker"
 PLATFORMS = ["sensor"]
 
 CONF_API_KEY = "api_key"
+CONF_API_SECRET = "api_secret"
 CONF_TRACKING_NUMBERS = "tracking_numbers"
 CONF_POLL_INTERVAL_MINUTES = "poll_interval_minutes"
 

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import base64
 
 import aiohttp
 
@@ -28,8 +29,14 @@ class TrackingResult:
 class DHLApiClient:
     """Client for DHL shipment tracking endpoints."""
 
-    def __init__(self, api_key: str, session: aiohttp.ClientSession) -> None:
+    def __init__(
+        self,
+        api_key: str,
+        session: aiohttp.ClientSession,
+        api_secret: str | None = None,
+    ) -> None:
         self._api_key = api_key
+        self._api_secret = api_secret
         self._session = session
 
     async def async_get_shipment(self, tracking_number: str) -> TrackingResult:
@@ -39,6 +46,12 @@ class DHLApiClient:
             "DHL-API-Key": self._api_key,
             "User-Agent": "HomeAssistantDhlPaketTracker/0.1",
         }
+
+        if self._api_secret:
+            token = base64.b64encode(f"{self._api_key}:{self._api_secret}".encode()).decode()
+            headers["Authorization"] = f"Basic {token}"
+            headers["DHL-API-Secret"] = self._api_secret
+
         params = {"trackingNumber": tracking_number}
 
         async with self._session.get(
@@ -47,8 +60,10 @@ class DHLApiClient:
             params=params,
             timeout=aiohttp.ClientTimeout(total=20),
         ) as response:
-            if response.status == 401:
-                raise DHLApiAuthError("Authentication failed. Please check your DHL API key.")
+            if response.status == 401 or (response.status == 403 and self._api_secret):
+                raise DHLApiAuthError(
+                    "Authentication failed. Please check your DHL API key and API secret."
+                )
 
             if response.status >= 400:
                 text = await response.text()
